@@ -46,10 +46,42 @@ jobs:
       PYTHONPATH: .
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install -r requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create dbt profiles.yml
+        run: |
+          mkdir -p ~/.dbt
+          python - <<'EOF'
+          import os, urllib.parse, pathlib
+          url = urllib.parse.urlparse(os.environ["DATABASE_URL"])
+          host     = url.hostname
+          user     = url.username
+          password = url.password
+          port     = url.port or 5432
+          dbname   = url.path.lstrip("/")
+          content  = f"""pipeline_dbt:
+            outputs:
+              dev:
+                type: postgres
+                host: {host}
+                user: {user}
+                password: {password}
+                port: {port}
+                dbname: {dbname}
+                schema: public
+                sslmode: require
+                threads: 1
+            target: dev
+          """
+          pathlib.Path(os.path.expanduser("~/.dbt/profiles.yml")).write_text(content)
+          print("profiles.yml created successfully")
+          EOF
 
       - name: Run tests
         run: pytest tests/ -v
@@ -70,4 +102,4 @@ jobs:
 
       - name: dbt run (gold)
         working-directory: pipeline_dbt
-        run: dbt run --select gold
+        run: dbt run --select gold
