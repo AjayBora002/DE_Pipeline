@@ -10,8 +10,6 @@ dashboard/node_modules/
 .env.local
 .env.*
 
-# Large sample data
-data/
 
 # Python Virtual Environment
 dbt-env/
@@ -40,6 +38,3 @@ logs/
 *.njsproj
 *.sln
 *.swp
-
-.vercel
-.env*
