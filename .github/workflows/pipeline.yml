@@ -1,12 +1,42 @@
-name: Daily Data Pipeline
+# name: Daily Data Pipeline
 
+
+# on:
+#   schedule:
+#     - cron: '0 3 * * *'
+#   workflow_dispatch:
+
+
+
+# jobs:
+#   run-pipeline:
+#     runs-on: ubuntu-latest
+#     env:
+#       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/setup-python@v5
+#         with:
+#           python-version: '3.11'
+#       - run: pip install -r requirements.txt
+#       - name: Ingest weather
+#         run: python ingest/fetch_weather.py
+#       - name: Ingest ridership
+#         run: python ingest/load_ridership.py
+#       - name: Run Silver transformations
+#         run: python transform/silver.py
+#       - name: Run gold aggregations
+#         run: python transform/gold.py
+
+# this was the action flow if we do not use dbt
+
+
+name: Daily Data Pipeline
 
 on:
   schedule:
     - cron: '0 3 * * *'
   workflow_dispatch:
-
-
 
 jobs:
   run-pipeline:
@@ -19,11 +49,24 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest tests/ -v
+
       - name: Ingest weather
         run: python ingest/fetch_weather.py
+
       - name: Ingest ridership
         run: python ingest/load_ridership.py
-      - name: Run Silver transformations
-        run: python transform/silver.py
-      - name: Run gold aggregations
-        run: python transform/gold.py
+
+      - name: dbt run (silver)
+        working-directory: pipeline_dbt
+        run: dbt run --select silver
+
+      - name: dbt test (silver)
+        working-directory: pipeline_dbt
+        run: dbt test --select silver
+
+      - name: dbt run (gold)
+        working-directory: pipeline_dbt
+        run: dbt run --select gold
