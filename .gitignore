@@ -1,6 +1,10 @@
 # Vercel configuration
 .vercel
 
+# Node modules
+node_modules/
+dashboard/node_modules/
+
 # Environment variables (secret credentials)
 .env
 .env.local
@@ -36,3 +40,6 @@ logs/
 *.njsproj
 *.sln
 *.swp
+
+.vercel
+.env*
