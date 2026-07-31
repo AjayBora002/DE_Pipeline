@@ -1,0 +1,25 @@
+# Large data files
+data/
+
+# Python virtual environment
+dbt-env/
+
+# dbt compiled output
+pipeline_dbt/target/
+pipeline_dbt/dbt_packages/
+pipeline_dbt/logs/
+
+# Logs
+logs/
+
+# Tests
+tests/
+
+# Local notes/references
+routing convention/
+dashboard/
+utils/
+
+# Python cache
+**/__pycache__/
+**/*.pyc

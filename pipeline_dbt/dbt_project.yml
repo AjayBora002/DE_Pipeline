@@ -1,0 +1,30 @@
+name: 'pipeline_dbt'
+version: '1.0.0'
+config-version: 2
+
+# This profile name must match the key in ~/.dbt/profiles.yml
+profile: 'pipeline_dbt'
+
+# File path configs (relative to this file)
+model-paths: ["models"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"       # compiled SQL goes here
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  pipeline_dbt:
+    # Silver layer: cleaned & validated bronze data
+    silver:
+      +materialized: table
+      +schema: public
+
+    # Gold layer: aggregated, analytics-ready tables
+    gold:
+      +materialized: table
+      +schema: public

@@ -1,0 +1,38 @@
+# Vercel configuration
+.vercel
+
+# Environment variables (secret credentials)
+.env
+.env.local
+.env.*
+
+# Large sample data
+data/
+
+# Python Virtual Environment
+dbt-env/
+venv/
+.venv/
+env/
+
+# Python Cache
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# dbt Artifacts & Logs
+pipeline_dbt/target/
+pipeline_dbt/dbt_packages/
+pipeline_dbt/logs/
+logs/
+*.log
+
+# Editor Settings
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
