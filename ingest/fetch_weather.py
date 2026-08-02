@@ -4,7 +4,10 @@ import requests
 import psycopg2
 from psycopg2.extras import Json
 from datetime import date
+from dotenv import load_dotenv
 from utils.logger import log_run
+
+load_dotenv()
 
 DATABASE_URL = os.environ["DATABASE_URL"]
 LAT, LON = 29.22, 79.53
