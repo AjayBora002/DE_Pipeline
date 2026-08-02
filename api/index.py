@@ -19,7 +19,7 @@ DATABASE_URL = os.environ["DATABASE_URL"]
 
 @app.get("/daily-summary")
 def get_summary():
-  conn = psycopg2.connect(DATABASE_URL)
+  conn = psycopg2.connect(DATABASE_URL, connect_timeout=10)
   cur = conn.cursor(cursor_factory = RealDictCursor)
   cur.execute("SELECT * FROM gold_daily_summary ORDER BY date DESC LIMIT 60")
   rows = cur.fetchall()

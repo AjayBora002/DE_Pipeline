@@ -9,7 +9,7 @@ DATABASE_URL = os.environ["DATABASE_URL"]
 CSV_PATH = "data/sample_trips.csv"
 
 def load_csv_to_bronze():
-  conn = psycopg2.connect(DATABASE_URL)
+  conn = psycopg2.connect(DATABASE_URL, connect_timeout=10)
   cur = conn.cursor()
 
   cur.execute(

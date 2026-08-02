@@ -31,7 +31,7 @@ def fetch_weather():
     return resp.json()
 
 def save_to_bronze(data):
-    conn = psycopg2.connect(DATABASE_URL)
+    conn = psycopg2.connect(DATABASE_URL, connect_timeout=10)
     cur = conn.cursor()
     cur.execute(
         """
