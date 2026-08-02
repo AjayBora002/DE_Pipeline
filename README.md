@@ -4,6 +4,20 @@ Automated batch pipeline: ingests weather + ridership data daily, validates
 and transforms it through bronze/silver/gold layers using dbt, and serves
 results via a live API and dashboard.
 
+Open-Meteo API ──┐
+                  ├──► bronze_weather / bronze_ridership (raw, untouched)
+Citi Bike CSV ────┘         │
+                             ▼ dbt (SQL transforms)
+                    silver_weather / silver_ridership (cleaned, typed, filtered)
+                             │
+                             ▼ dbt (join + aggregate)
+                      gold_daily_summary (one row per day)
+                             │
+                             ▼
+                    FastAPI (api/index.py) ──► React dashboard
+
+
+                    
 **Live demo:** [DASHBOARD_URL] | **API:** https://de-pipeline-w3km.vercel.app/
 
 ![dashboard screenshot](./docs/screenshot.png)
