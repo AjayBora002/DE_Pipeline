@@ -2,8 +2,7 @@
 
 WITH parsed AS (
     SELECT
-        -- old format has no unique trip ID column — build one
-        md5(raw_row->>'starttime' || raw_row->>'bikeid') AS trip_id,
+        md5((raw_row->>'starttime') || (raw_row->>'bikeid')) AS trip_id,
         (raw_row->>'starttime')::timestamp AS started_at,
         (raw_row->>'stoptime')::timestamp AS ended_at,
         COALESCE(raw_row->>'start station name', 'unknown') AS station_start,

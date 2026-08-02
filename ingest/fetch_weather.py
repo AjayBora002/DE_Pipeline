@@ -6,6 +6,8 @@ from psycopg2.extras import Json
 from datetime import date
 from dotenv import load_dotenv
 from utils.logger import log_run
+from dotenv import load_dotenv
+load_dotenv()
 
 load_dotenv()
 

@@ -3,6 +3,8 @@ import csv
 import psycopg2
 from psycopg2.extras import Json, execute_values
 from utils.logger import log_run
+from dotenv import load_dotenv
+load_dotenv()
 
 DATABASE_URL = os.environ["DATABASE_URL"]
 CSV_PATH = "data/sample_trips.csv"
