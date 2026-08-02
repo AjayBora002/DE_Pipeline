@@ -17,7 +17,7 @@ app.add_middleware(
 DATABASE_URL = os.environ["DATABASE_URL"]
 
 
-@app.get("/daily-summary")
+@app.get("/api/daily-summary")
 def get_summary():
   conn = psycopg2.connect(DATABASE_URL, connect_timeout=10)
   cur = conn.cursor(cursor_factory = RealDictCursor)
@@ -27,7 +27,7 @@ def get_summary():
   conn.close()
   return rows
 
-@app.get("/pipeline-health")
+@app.get("/api/pipeline-health")
 def pipeline_health():
   conn = psycopg2.connect(DATABASE_URL)
   cur = conn.cursor(cursor_factory = RealDictCursor)
@@ -37,6 +37,6 @@ def pipeline_health():
   conn.close()
   return rows
 
-@app.get("/health")
+@app.get("/api/health")
 def health():
   return {"status": "ok"}
