@@ -1,4 +1,8 @@
 # Weather–Ridership Data Pipeline
+![Pipeline status](https://github.com/AjayBora002/DE_Pipeline/actions/workflows/pipeline.yml/badge.svg)
+
+
+
 
 Automated batch pipeline: ingests weather + ridership data daily, validates
 and transforms it through bronze/silver/gold layers using dbt, and serves
