@@ -2,13 +2,14 @@
 
 WITH parsed AS (
     SELECT
-        raw_row->>'ride_id' AS trip_id,
-        (raw_row->>'started_at')::timestamp AS started_at,
-        (raw_row->>'ended_at')::timestamp AS ended_at,
-        COALESCE(raw_row->>'start_station_name', 'unknown') AS station_start,
-        COALESCE(raw_row->>'end_station_name', 'unknown') AS station_end
+        -- old format has no unique trip ID column — build one
+        md5(raw_row->>'starttime' || raw_row->>'bikeid') AS trip_id,
+        (raw_row->>'starttime')::timestamp AS started_at,
+        (raw_row->>'stoptime')::timestamp AS ended_at,
+        COALESCE(raw_row->>'start station name', 'unknown') AS station_start,
+        COALESCE(raw_row->>'end station name', 'unknown') AS station_end
     FROM {{ source('bronze', 'bronze_ridership') }}
-    WHERE raw_row->>'ride_id' IS NOT NULL
+    WHERE raw_row->>'starttime' IS NOT NULL
 ),
 calculated AS (
     SELECT
